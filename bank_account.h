@@ -24,6 +24,9 @@ public:
     constexpr unsigned withdraw(unsigned amount)
     {
 		// TODO: throw exception if amount > _balance
+        if (amount > _balance) {
+            throw std::runtime_error("overdraft is prohibited");
+        }
         _balance -= amount;
 
         return _balance;
@@ -31,6 +34,9 @@ public:
     constexpr unsigned deposit(unsigned amount)
     {
 		// TODO: throw exception if addition would cause overflow
+        if (amount > std::numeric_limits<unsigned>::max() - _balance) {
+            throw std::overflow_error("deposit would cause unsigned overflow");
+        }
         _balance += amount;
 
         return _balance;
